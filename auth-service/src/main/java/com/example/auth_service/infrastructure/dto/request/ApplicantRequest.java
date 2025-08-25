@@ -3,6 +3,8 @@ package com.example.auth_service.infrastructure.dto.request;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class ApplicantRequest {
 
@@ -13,7 +15,7 @@ public class ApplicantRequest {
     private String lastName;
 
     @NotBlank
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private String address;
     private String phoneNumber;
