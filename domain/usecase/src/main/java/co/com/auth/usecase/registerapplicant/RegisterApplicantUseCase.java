@@ -3,6 +3,7 @@ package co.com.auth.usecase.registerapplicant;
 import co.com.auth.model.applicant.Applicant;
 import co.com.auth.model.applicant.gateways.ApplicantRepository;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
@@ -16,6 +17,10 @@ public class RegisterApplicantUseCase {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     private static final BigDecimal MIN_SALARY = BigDecimal.ZERO;
     private static final BigDecimal MAX_SALARY = new BigDecimal("15000000");
+
+    public Flux<Applicant> getAllApplicants() {
+        return applicantRepository.getAllApplicants();
+    }
 
     public Mono<Applicant> register(Applicant applicant) {
         return validateApplicant(applicant)

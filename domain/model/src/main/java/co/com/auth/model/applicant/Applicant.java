@@ -1,14 +1,11 @@
 package co.com.auth.model.applicant;
 import lombok.*;
-//import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-//@Getter
-//@Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder(toBuilder = true)
 public class Applicant {
