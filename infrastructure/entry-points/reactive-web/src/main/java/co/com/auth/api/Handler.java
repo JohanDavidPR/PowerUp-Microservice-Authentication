@@ -30,9 +30,8 @@ public class Handler {
         return request.bodyToMono(Applicant.class)
                 .flatMap(registerApplicantUseCase::register)
                 .flatMap(applicant ->
-                        ServerResponse.ok()
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .bodyValue(applicant))
+                        ServerResponse.created(null)
+                                .build())
                 .onErrorResume(IllegalArgumentException.class, ex ->
                         ServerResponse.badRequest().bodyValue(Map.of("error", ex.getMessage()))
                 );
