@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 @Builder(toBuilder = true)
 public class Applicant {
-    private String id;
+    private int id;
     private String firstName;
     private String lastName;
     private LocalDate birthDate;

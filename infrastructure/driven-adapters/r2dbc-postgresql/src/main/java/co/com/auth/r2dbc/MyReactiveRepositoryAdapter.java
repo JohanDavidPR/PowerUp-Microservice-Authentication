@@ -1,21 +1,18 @@
-package co.com.auth.mongo;
+package co.com.auth.r2dbc;
 
 import co.com.auth.model.applicant.Applicant;
 import co.com.auth.model.applicant.gateways.ApplicantRepository;
-import co.com.auth.mongo.entity.ApplicantEntity;
-import co.com.auth.mongo.helper.AdapterOperations;
+import co.com.auth.r2dbc.entity.ApplicantEntity;
+import co.com.auth.r2dbc.helper.ReactiveAdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 @Repository
-public class MongoRepositoryAdapter extends AdapterOperations<Applicant, ApplicantEntity, String, MongoDBRepository> implements ApplicantRepository
-{
-    public MongoRepositoryAdapter(MongoDBRepository repository, ObjectMapper mapper) {
+public class MyReactiveRepositoryAdapter extends ReactiveAdapterOperations<Applicant, ApplicantEntity, String, MyReactiveRepository> implements ApplicantRepository {
+
+    public MyReactiveRepositoryAdapter(MyReactiveRepository repository, ObjectMapper mapper) {
         super(repository, mapper, d -> mapper.map(d, Applicant.class));
     }
 

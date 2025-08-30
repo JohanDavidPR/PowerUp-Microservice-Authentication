@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8085
 spring:
   application:
     name: "auth-service"
@@ -11,9 +11,13 @@ spring:
       path: "/h2"
   profiles:
     include: null
-  data:
-    mongodb:
-      uri: "mongodb://admin:admin123@localhost:27017/userauth?authSource=admin"
+  postgres:
+    host: localhost
+    port: 5434
+    database: userauth
+    schema: public
+    username: admin
+    password: admin123
 management:
   endpoints:
     web:
