@@ -2,9 +2,9 @@ package co.com.auth.usecase.registerapplicant;
 
 import co.com.auth.model.applicant.Applicant;
 import co.com.auth.model.applicant.gateways.ApplicantRepository;
-import co.com.auth.usecase.registerapplicant.exception.DuplicateEmailException;
-import co.com.auth.usecase.registerapplicant.exception.ValidationException;
-import co.com.auth.usecase.registerapplicant.utils.ApplicantValidator;
+import co.com.auth.usecase.exeption.DuplicateEmailException;
+import co.com.auth.usecase.exeption.ValidationException;
+import co.com.auth.usecase.utils.ApplicantValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

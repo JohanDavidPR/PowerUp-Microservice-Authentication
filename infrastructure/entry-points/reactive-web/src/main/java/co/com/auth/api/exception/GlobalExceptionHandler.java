@@ -1,7 +1,7 @@
 package co.com.auth.api.exception;
 
-import co.com.auth.usecase.registerapplicant.exception.DuplicateEmailException;
-import co.com.auth.usecase.registerapplicant.exception.ValidationException;
+import co.com.auth.usecase.exeption.DuplicateEmailException;
+import co.com.auth.usecase.exeption.ValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

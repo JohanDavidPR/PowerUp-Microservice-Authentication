@@ -2,14 +2,11 @@ package co.com.auth.usecase.registerapplicant;
 
 import co.com.auth.model.applicant.Applicant;
 import co.com.auth.model.applicant.gateways.ApplicantRepository;
-import co.com.auth.usecase.registerapplicant.exception.DuplicateEmailException;
-import co.com.auth.usecase.registerapplicant.utils.ApplicantValidator;
+import co.com.auth.usecase.exeption.DuplicateEmailException;
+import co.com.auth.usecase.utils.ApplicantValidator;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.math.BigDecimal;
-import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 public class RegisterApplicantUseCase {
