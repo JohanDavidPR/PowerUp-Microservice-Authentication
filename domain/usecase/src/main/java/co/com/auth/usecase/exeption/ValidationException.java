@@ -1,4 +1,4 @@
-package co.com.auth.usecase.registerapplicant.exception;
+package co.com.auth.usecase.exeption;
 
 public class ValidationException extends RuntimeException {
     public ValidationException(String message) {

@@ -1,4 +1,4 @@
-package co.com.auth.usecase.registerapplicant.utils;
+package co.com.auth.usecase.utils;
 
 import java.math.BigDecimal;
 

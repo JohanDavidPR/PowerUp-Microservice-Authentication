@@ -1,4 +1,4 @@
-package co.com.auth.usecase.registerapplicant.exception;
+package co.com.auth.usecase.exeption;
 
 public class DuplicateEmailException extends RuntimeException {
     public DuplicateEmailException(String email) {

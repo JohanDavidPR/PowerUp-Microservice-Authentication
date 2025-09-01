@@ -1,7 +1,7 @@
-package co.com.auth.usecase.registerapplicant.utils;
+package co.com.auth.usecase.utils;
 
 import co.com.auth.model.applicant.Applicant;
-import co.com.auth.usecase.registerapplicant.exception.ValidationException;
+import co.com.auth.usecase.exeption.ValidationException;
 import reactor.core.publisher.Mono;
 
 import java.util.regex.Pattern;
