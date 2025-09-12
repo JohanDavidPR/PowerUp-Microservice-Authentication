@@ -1,6 +1,10 @@
 package co.com.auth.api;
 
+import co.com.auth.api.dto.LoginRequest;
 import co.com.auth.model.applicant.Applicant;
+import co.com.auth.usecase.exeption.UnauthorizedException;
+import co.com.auth.usecase.login.LoginUseCase;
+import co.com.auth.usecase.loginattempt.LoginAttemptUseCase;
 import co.com.auth.usecase.registerapplicant.RegisterApplicantUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -15,6 +19,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class Handler {
     private final RegisterApplicantUseCase registerApplicantUseCase;
+    private final LoginAttemptUseCase loginAttemptUseCase;
+    private final LoginUseCase loginUseCase;
 
     public Mono<ServerResponse> getAllApplicants(ServerRequest request) {
         return registerApplicantUseCase.getAllApplicants().collectList().flatMap(applicants ->
@@ -32,6 +38,23 @@ public class Handler {
                                 .build())
                 .onErrorResume(IllegalArgumentException.class, ex ->
                         ServerResponse.badRequest().bodyValue(Map.of("error", ex.getMessage()))
+                );
+    }
+
+    public Mono<ServerResponse> login(ServerRequest request) {
+        return request.bodyToMono(LoginRequest.class)
+                .flatMap(body -> {
+                    String email = body.getEmail();
+                    String password = body.getPassword();
+                    return loginUseCase.login(email, password)
+                            .flatMap(user ->
+                                    ServerResponse.ok()
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .bodyValue(user)
+                            );
+                })
+                .onErrorResume(UnauthorizedException.class, ex ->
+                        ServerResponse.status(401).bodyValue(Map.of("error", ex.getMessage()))
                 );
     }
 }

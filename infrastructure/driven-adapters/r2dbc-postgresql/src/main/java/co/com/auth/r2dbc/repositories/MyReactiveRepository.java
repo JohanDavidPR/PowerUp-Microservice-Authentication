@@ -1,4 +1,4 @@
-package co.com.auth.r2dbc;
+package co.com.auth.r2dbc.repositories;
 
 import co.com.auth.r2dbc.entity.ApplicantEntity;
 import org.springframework.data.repository.query.ReactiveQueryByExampleExecutor;

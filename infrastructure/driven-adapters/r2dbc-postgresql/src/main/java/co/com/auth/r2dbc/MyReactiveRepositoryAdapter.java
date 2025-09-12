@@ -4,6 +4,7 @@ import co.com.auth.model.applicant.Applicant;
 import co.com.auth.model.applicant.gateways.ApplicantRepository;
 import co.com.auth.r2dbc.entity.ApplicantEntity;
 import co.com.auth.r2dbc.helper.ReactiveAdapterOperations;
+import co.com.auth.r2dbc.repositories.MyReactiveRepository;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;

@@ -1,5 +1,6 @@
 package co.com.auth.r2dbc;
 
+import co.com.auth.r2dbc.repositories.MyReactiveRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
