@@ -1,4 +1,5 @@
 package co.com.auth.model.user;
+import co.com.auth.model.role.Role;
 import lombok.*;
 
 @Data
@@ -9,5 +10,6 @@ public class User {
     private String id;
     private String email;
     private String password;
-    private String role;
+    private Role rol;
+    private int attempts;
 }
