@@ -6,6 +6,7 @@ import co.com.auth.r2dbc.entity.UserEntity;
 import co.com.auth.r2dbc.helper.ReactiveAdapterOperations;
 import co.com.auth.r2dbc.repositories.UserReactiveRepository;
 import org.reactivecommons.utils.ObjectMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
@@ -17,8 +18,11 @@ public class UserRepositoryAdapter extends ReactiveAdapterOperations<
         UserReactiveRepository
         > implements UserRepository {
 
-    public UserRepositoryAdapter(UserReactiveRepository repository, ObjectMapper mapper) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserRepositoryAdapter(UserReactiveRepository repository, ObjectMapper mapper, PasswordEncoder passwordEncoder) {
         super(repository, mapper, d -> mapper.map(d, User.class));
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -36,4 +40,10 @@ public class UserRepositoryAdapter extends ReactiveAdapterOperations<
     public Mono<Void> incrementAttempts(String email) {
         return repository.incrementAttempts(email).then();
     }
+
+    @Override
+    public Mono<Boolean> validatePassword(String password, String encodedPassword) {
+        return Mono.fromCallable(() -> passwordEncoder.matches(password, encodedPassword));
+    }
+
 }

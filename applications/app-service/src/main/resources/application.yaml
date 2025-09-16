@@ -13,7 +13,7 @@ spring:
     include: null
   postgres:
     host: localhost
-    port: 5434
+    port: 5436
     database: userauth
     schema: public
     username: admin

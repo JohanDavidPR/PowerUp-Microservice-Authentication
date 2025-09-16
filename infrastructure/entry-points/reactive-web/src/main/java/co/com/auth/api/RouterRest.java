@@ -57,6 +57,6 @@ public class RouterRest {
     public RouterFunction<ServerResponse> routerFunction(Handler handler) {
         return route(POST("/api/v1/usuarios"), handler::registerApplicant)
                 .andRoute(GET("/api/v1/usuarios/all"), handler::getAllApplicants)
-                .andRoute(POST("/api/v1/usuarios/login"), handler::login);
+                .andRoute(POST("/api/v1/login"), handler::login);
     }
 }
