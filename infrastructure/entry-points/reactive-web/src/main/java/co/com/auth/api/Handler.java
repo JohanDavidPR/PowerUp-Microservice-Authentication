@@ -1,12 +1,15 @@
 package co.com.auth.api;
 
 import co.com.auth.api.dto.LoginRequest;
+import co.com.auth.api.dto.LoginResponse;
 import co.com.auth.api.security.JwtProvider;
 import co.com.auth.model.applicant.Applicant;
+import co.com.auth.model.user.User;
 import co.com.auth.usecase.exeption.UnauthorizedException;
 import co.com.auth.usecase.login.LoginUseCase;
 import co.com.auth.usecase.loginattempt.LoginAttemptUseCase;
 import co.com.auth.usecase.registerapplicant.RegisterApplicantUseCase;
+import co.com.auth.usecase.registeruser.RegisterUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -22,6 +25,7 @@ public class Handler {
     private final RegisterApplicantUseCase registerApplicantUseCase;
     private final LoginAttemptUseCase loginAttemptUseCase;
     private final LoginUseCase loginUseCase;
+    private final RegisterUserUseCase registerUserUseCase;
     private final JwtProvider jwtProvider;
 
     public Mono<ServerResponse> getAllApplicants(ServerRequest request) {
@@ -45,14 +49,41 @@ public class Handler {
 
     public Mono<ServerResponse> login(ServerRequest request) {
         return request.bodyToMono(LoginRequest.class)
+                .flatMap(body -> loginAttemptUseCase.canLogin(body.getEmail()))
+                .filter(canLogin -> canLogin)
+                .switchIfEmpty(Mono.error(new UnauthorizedException("User is blocked due to too many failed login attempts")))
+                .flatMap(canLogin -> request.bodyToMono(LoginRequest.class))
                 .flatMap(body -> loginUseCase.login(body.getEmail(), body.getPassword()))
-                .map(user -> {
-                    String token = jwtProvider.generateToken(user.getEmail(), user.getRol().getName());
-                    return Map.of("token", token);
+                .flatMap(applicant -> {
+                    String token = jwtProvider.generateToken(applicant.getId(), applicant.getEmail());
+                    LoginResponse response = new LoginResponse();
+                    response.setToken(token);
+                    return ServerResponse.ok()
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .bodyValue(response);
                 })
-                .flatMap(tokenMap -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(tokenMap))
                 .onErrorResume(UnauthorizedException.class, ex ->
                         ServerResponse.status(401).bodyValue(Map.of("error", ex.getMessage()))
+                )
+                .onErrorResume(IllegalArgumentException.class, ex ->
+                        ServerResponse.badRequest().bodyValue(Map.of("error", ex.getMessage()))
+                );
+    }
+
+    public Mono<ServerResponse> registerUser(ServerRequest request) {
+        return request.bodyToMono(RegisterUserDto.class)
+                .map(dto -> new User(
+                        null,
+                        dto.getEmail(),
+                        dto.getPassword(),
+                        dto.getRole()
+                ))
+                .flatMap(registerUserUseCase::registerUser)
+                .flatMap(applicant ->
+                        ServerResponse.created(null)
+                                .build())
+                .onErrorResume(IllegalArgumentException.class, ex ->
+                        ServerResponse.badRequest().bodyValue(Map.of("error", ex.getMessage()))
                 );
     }
 }
