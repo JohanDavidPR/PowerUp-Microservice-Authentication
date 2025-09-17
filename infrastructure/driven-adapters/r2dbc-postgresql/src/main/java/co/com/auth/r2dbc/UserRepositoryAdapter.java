@@ -46,4 +46,12 @@ public class UserRepositoryAdapter extends ReactiveAdapterOperations<
         return Mono.fromCallable(() -> passwordEncoder.matches(password, encodedPassword));
     }
 
+    @Override
+    public Mono<User> save(User user) {
+        User userToSave = user.toBuilder()
+                .password(passwordEncoder.encode(user.getPassword()))
+                .build();
+        return super.save(userToSave);
+    }
+
 }
