@@ -8,4 +8,5 @@ public interface UserRepository {
     Mono<Integer> getAttempts(String email);
     Mono<Void> incrementAttempts(String email);
     Mono<Boolean> validatePassword(String password, String encodedPassword);
+    Mono<User> save(User user);
 }
