@@ -2,6 +2,7 @@ package co.com.auth.api;
 
 import co.com.auth.api.dto.LoginRequest;
 import co.com.auth.api.dto.LoginResponse;
+import co.com.auth.api.dto.RegisterUserDto;
 import co.com.auth.api.security.JwtProvider;
 import co.com.auth.model.applicant.Applicant;
 import co.com.auth.model.user.User;
@@ -76,7 +77,8 @@ public class Handler {
                         null,
                         dto.getEmail(),
                         dto.getPassword(),
-                        dto.getRole()
+                        dto.getRol(),
+                        0
                 ))
                 .flatMap(registerUserUseCase::registerUser)
                 .flatMap(applicant ->

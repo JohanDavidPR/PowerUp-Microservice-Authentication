@@ -10,6 +10,6 @@ public class User {
     private String id;
     private String email;
     private String password;
-    private Role rol;
+    private int rol;
     private int attempts;
 }
